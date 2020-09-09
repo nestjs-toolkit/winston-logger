@@ -3,11 +3,8 @@
     "commitMessage": "chore: release v${version}"
   },
   "github": {
-    "skipChecks": true,
-    "release": false,
-    "assets": [
-      "dist"
-    ]
+    "skipChecks": false,
+    "release": true
   },
   "npm": {
     "publish": false

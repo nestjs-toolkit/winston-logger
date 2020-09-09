@@ -1,0 +1,18 @@
+version: '3.1'
+
+services:
+
+  mongodb:
+    container_name: kit_mongodb
+    image: mongo:latest
+    restart: always
+    environment:
+      - MONGODB_DATABASE="test"
+    ports:
+      - 27017:27017
+    volumes:
+      - kit_mongodb_data:/data/db
+
+volumes:
+  kit_mongodb_data:
+    external: true

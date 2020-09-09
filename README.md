@@ -73,3 +73,10 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
   Nest is [MIT licensed](LICENSE).
+
+## Usando com mongo
+
+```bash
+# instalando dependencia transform mongo
+$ yarn add winston-mongodb
+```

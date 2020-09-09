@@ -1,6 +1,6 @@
 {
   "name": "@nestjs-toolkit/logger",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Adaptador de log com winston",
   "author": "Valmir Barbosa",
   "license": "UNLICENSED",
@@ -96,5 +96,7 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
-  "publishConfig": { "registry": "https://npm.pkg.github.com/" }
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  }
 }

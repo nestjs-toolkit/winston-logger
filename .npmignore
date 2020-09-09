@@ -5,6 +5,7 @@ index.ts
 package-lock.json
 tsconfig.json
 tsconfig.build.json
+tsconfig.build.tsbuildinfo
 coverage
 src
 

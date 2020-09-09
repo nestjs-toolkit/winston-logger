@@ -3,7 +3,14 @@
     "commitMessage": "chore: release v${version}"
   },
   "github": {
-    "release": true
+    "skipChecks": true,
+    "release": false,
+    "assets": [
+      "dist"
+    ]
+  },
+  "npm": {
+    "publish": false
   },
   "hooks": {
     "after:bump": "yarn lib:build",

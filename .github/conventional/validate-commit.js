@@ -30,19 +30,20 @@ if (!commitRE.test(msg)) {
   console.log();
   console.error(
     `  ${chalk.bgRed.white(' ERROR ')} ${chalk.red(
-      'invalid commit message format:'
+      'invalid commit message format:',
     )} ${chalk.yellow(msg)} \n\n${chalk.red(
-      '  Proper commit message format is required for automated changelog generation. Examples:\n\n'
+      '  Proper commit message format is required for automated changelog generation. Examples:\n\n',
     )}    ${chalk.green('feat(route): add support for prefix')}\n` +
-      `    ${chalk.green(
-        'fix(model): make primaryKey getter camelcase (close #28)'
-      )}\n\n${chalk.red(
-        '  See .github/COMMIT_CONVENTION.md for more details.\n'
-      )}${chalk.red(
-        `  You can also use ${chalk.cyan(
-          'npm run commit'
-        )} to interactively generate a commit message.\n`
-      )}`
+    `    ${chalk.green(
+      'fix(model): make primaryKey getter camelcase (close #28)',
+    )}\n\n${chalk.red(
+      '  See .github/COMMIT_CONVENTION.md for more details.\n',
+    )}${chalk.red(
+      `  You can also use ${chalk.cyan(
+        'npm run commit',
+      )} to interactively generate a commit message.\n`,
+    )}`,
   );
   process.exit(1);
 }
+

@@ -3,8 +3,7 @@
     "commitMessage": "chore: release v${version}"
   },
   "github": {
-    "release": true,
-    "assets": ["dist/*"]
+    "release": true
   },
   "hooks": {
     "after:bump": "yarn prebuild && yarn lib:build",

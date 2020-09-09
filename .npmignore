@@ -1,9 +1,12 @@
 # source
-lib
-tests
+libs
+test
 index.ts
 package-lock.json
 tsconfig.json
+tsconfig.build.json
+coverage
+src
 
 # misc
 .commitlintrc.json
@@ -20,3 +23,6 @@ tsconfig.json
 yarn-error.log
 .nycrc
 nest-cli.json
+
+# DOCKER
+docker-compose.yml

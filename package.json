@@ -4,6 +4,7 @@
   "description": "Adaptador de log com winston",
   "author": "Valmir Barbosa",
   "license": "UNLICENSED",
+  "private": false,
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -94,8 +95,5 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }

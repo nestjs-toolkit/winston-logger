@@ -2,7 +2,9 @@
   "compilerOptions": {
     "module": "commonjs",
     "declaration": true,
+    "importHelpers": true,
     "removeComments": true,
+    "noLib": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
@@ -10,6 +12,18 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
-    "incremental": true
-  }
+    "incremental": true,
+    "paths": {
+      "@nestjs-toolkit/logger": [
+        "libs/logger/src"
+      ],
+      "@nestjs-toolkit/logger/*": [
+        "libs/logger/src/*"
+      ]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

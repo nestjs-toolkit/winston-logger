@@ -42,10 +42,10 @@ jobs:
       - name: testing e2e
         run: yarn test:e2e
 
-      - name: build
-        run: yarn build
+      - name: lib:build
+        run: yarn lib:build
 
-      - name: Testing lib
-        run: yarn jest libs/logger --coverage
+      - name: lib:test
+        run: yarn lib:test
 
 

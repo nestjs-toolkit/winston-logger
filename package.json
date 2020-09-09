@@ -1,6 +1,6 @@
 {
   "name": "@nestjs-toolkit/logger",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Adaptador de log com winston",
   "author": "Valmir Barbosa",
   "private": true,

@@ -4,6 +4,7 @@
   },
   "github": {
     "release": true,
+    "skipChecks": true,
     "assets": ["dist/*"]
   },
   "hooks": {

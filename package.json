@@ -1,6 +1,6 @@
 {
   "name": "@nestjs-toolkit/logger",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Adaptador de log com winston",
   "author": "Valmir Barbosa",
   "private": true,
@@ -21,7 +21,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "doc": "doctoc docs --title='## Summary'",
     "commit": "git-cz",
-    "release": "release-it --minor",
+    "release": "release-it --patch",
     "lib:build": "tsc -p tsconfig.build.json",
     "lib:test": "jest libs/logger --coverage"
   },

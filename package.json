@@ -1,14 +1,14 @@
 {
-  "name": "logger",
+  "name": "@nestjs-toolkit/logger",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "Adaptador de log com winston",
+  "author": "Valmir Barbosa",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"libs/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
@@ -20,7 +20,10 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "doc": "doctoc docs --title='## Summary'",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "release": "release-it --minor",
+    "lib:build": "tsc -p tsconfig.build.json",
+    "lib:test": "jest libs/logger --coverage"
   },
   "dependencies": {
     "winston": "^3.3.3"
@@ -48,6 +51,7 @@
     "jest": "26.0.1",
     "prettier": "^1.19.1",
     "reflect-metadata": "^0.1.13",
+    "release-it": "^14.0.2",
     "rimraf": "^3.0.2",
     "rxjs": "^6.5.4",
     "supertest": "^4.0.2",
@@ -64,13 +68,21 @@
       "json",
       "ts"
     ],
-    "rootDir": "src",
+    "rootDir": ".",
     "testRegex": ".spec.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "coverageDirectory": "./coverage",
+    "testEnvironment": "node",
+    "roots": [
+      "<rootDir>/src/",
+      "<rootDir>/libs/"
+    ],
+    "moduleNameMapper": {
+      "@nestjs-toolkit/logger/(.*)": "<rootDir>/libs/logger/src/$1",
+      "@nestjs-toolkit/logger": "<rootDir>/libs/logger/src"
+    }
   },
   "husky": {
     "hooks": {

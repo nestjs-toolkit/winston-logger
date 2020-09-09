@@ -1,0 +1,22 @@
+# source
+lib
+tests
+index.ts
+package-lock.json
+tsconfig.json
+
+# misc
+.commitlintrc.json
+.release-it.json
+.eslintignore
+.eslintrc.js
+.prettierignore
+.prettierrc
+
+# ide
+.idea
+.github
+
+yarn-error.log
+.nycrc
+nest-cli.json

@@ -1,5 +1,17 @@
 {
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./libs/logger/src"
+  },
   "extends": "./tsconfig.json",
-  "include": ["libs"],
-  "exclude": ["node_modules", "test", "dist", "src", "**/*spec.ts"]
+  "include": [
+    "libs/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "test",
+    "dist",
+    "src",
+    "**/*spec.ts"
+  ]
 }

@@ -1,6 +1,6 @@
 {
   "name": "@nestjs-toolkit/logger",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Adaptador de log com winston",
   "author": "Valmir Barbosa",
   "license": "UNLICENSED",
@@ -21,7 +21,7 @@
     "doc": "doctoc docs --title='## Summary'",
     "commit": "git-cz",
     "release": "release-it --patch",
-    "lib:build": "tsc -p tsconfig.build.json",
+    "lib:build": "yarn prebuild && tsc -p tsconfig.build.json",
     "lib:test": "jest libs/logger --coverage"
   },
   "dependencies": {

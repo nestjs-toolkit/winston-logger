@@ -12,10 +12,10 @@
     "baseUrl": "./",
     "incremental": true,
     "paths": {
-      "@nestjs-toolkit/logger": [
+      "@nestjs-toolkit/winston-logger": [
         "libs/logger/src"
       ],
-      "@nestjs-toolkit/logger/*": [
+      "@nestjs-toolkit/winston-logger/*": [
         "libs/logger/src/*"
       ]
     }

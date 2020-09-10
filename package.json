@@ -1,5 +1,5 @@
 {
-  "name": "@nestjs-toolkit/logger",
+  "name": "@nestjs-toolkit/winston-logger",
   "version": "0.0.6",
   "description": "Adaptador de log com winston",
   "author": "Valmir Barbosa",
@@ -26,6 +26,7 @@
     "lib:test": "jest libs/logger --coverage"
   },
   "dependencies": {
+    "@nestjs/mongoose": "^7.0.2",
     "winston": "^3.3.3"
   },
   "devDependencies": {
@@ -35,13 +36,17 @@
     "@nestjs/platform-express": "^7.0.0",
     "@nestjs/schematics": "^7.0.0",
     "@nestjs/testing": "^7.0.0",
+    "@types/chai": "^4.2.12",
+    "@types/cli-color": "^2.0.0",
     "@types/express": "^4.17.3",
     "@types/jest": "25.2.3",
+    "@types/mongoose": "^5.7.36",
     "@types/node": "^13.9.1",
     "@types/supertest": "^2.0.8",
     "@types/winston": "^2.4.4",
     "@typescript-eslint/eslint-plugin": "3.0.2",
     "@typescript-eslint/parser": "3.0.2",
+    "chai": "^4.2.0",
     "cz-conventional-changelog": "^3.3.0",
     "doctoc": "^1.4.0",
     "eslint": "7.1.0",
@@ -60,7 +65,10 @@
     "ts-node": "^8.6.2",
     "tsconfig-paths": "^3.9.0",
     "typescript": "^3.7.4",
-    "winston-mongodb": "^5.0.4"
+    "winston-mongodb": "^5.0.4",
+    "mongoose": "^5.10.4",
+    "cli-color": "^2.0.0",
+    "fast-safe-stringify": "^2.0.7"
   },
   "jest": {
     "moduleFileExtensions": [
@@ -80,8 +88,8 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
-      "@nestjs-toolkit/logger/(.*)": "<rootDir>/libs/logger/src/$1",
-      "@nestjs-toolkit/logger": "<rootDir>/libs/logger/src"
+      "@nestjs-toolkit/winston-logger/(.*)": "<rootDir>/libs/logger/src/$1",
+      "@nestjs-toolkit/winston-logger": "<rootDir>/libs/logger/src"
     }
   },
   "husky": {

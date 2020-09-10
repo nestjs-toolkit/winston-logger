@@ -80,3 +80,7 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 # instalando dependencia transform mongo
 $ yarn add winston-mongodb
 ```
+
+## REF
+https://github.com/gremo/nest-winston
+https://medium.com/@iago.maiasilva/construindo-uma-api-com-nestjs-postgresql-e-docker-parte-4-adicionando-logs-%C3%A0-nossa-aplica%C3%A7%C3%A3o-576ce4f9cc52

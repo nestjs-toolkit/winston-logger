@@ -2,9 +2,7 @@
   "compilerOptions": {
     "module": "commonjs",
     "declaration": true,
-    "importHelpers": true,
     "removeComments": true,
-    "noLib": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,

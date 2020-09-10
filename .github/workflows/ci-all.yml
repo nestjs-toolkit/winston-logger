@@ -8,13 +8,13 @@ jobs:
     runs-on: ubuntu-18.04
 
     # Service containers to run with `container-job`
-    # services:
-    #   mongo:
-    #     image: mongo:latest
-    #     env:
-    #       MONGODB_DATABASE: test
-    #     ports:
-    #       - 27017:27017
+    services:
+      mongo:
+        image: mongo:latest
+        env:
+          MONGODB_DATABASE: nest
+        ports:
+          - 27017:27017
 
     steps:
       - name: Checkout repository

@@ -5,8 +5,7 @@ import { AppService } from './app.service';
 export class AppController {
   private logger = new Logger(AppController.name);
 
-  constructor(private readonly appService: AppService) {
-  }
+  constructor(private readonly appService: AppService) {}
 
   @Get()
   getHello(): string {

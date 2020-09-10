@@ -94,7 +94,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn doc && git add docs",
+      "pre-commit": "yarn doc && yarn format && git add docs",
       "pre-push": "yarn lint",
       "commit-msg": "node ./.github/conventional/validate-commit.js"
     }

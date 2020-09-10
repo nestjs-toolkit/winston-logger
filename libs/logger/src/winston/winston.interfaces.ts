@@ -5,10 +5,13 @@ import { Type } from '@nestjs/common';
 export type WinstonModuleOptions = LoggerOptions;
 
 export interface WinstonModuleOptionsFactory {
-  createWinstonModuleOptions(): Promise<WinstonModuleOptions> | WinstonModuleOptions;
+  createWinstonModuleOptions():
+    | Promise<WinstonModuleOptions>
+    | WinstonModuleOptions;
 }
 
-export interface WinstonModuleAsyncOptions extends Pick<ModuleMetadata, 'imports'> {
+export interface WinstonModuleAsyncOptions
+  extends Pick<ModuleMetadata, 'imports'> {
   useFactory?: (
     ...args: any[]
   ) => Promise<WinstonModuleOptions> | WinstonModuleOptions;

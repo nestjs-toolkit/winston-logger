@@ -5,6 +5,4 @@ import { WinstonMongoDBService } from './winston-mongodb.service';
   providers: [WinstonMongoDBService],
   exports: [WinstonMongoDBService],
 })
-export class WinstonMongoDBModule {
-
-}
+export class WinstonMongoDBModule {}

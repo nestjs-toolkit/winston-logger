@@ -17,7 +17,6 @@ const nestLikeConsoleFormat = (appName = 'NestWinston'): Format => format.printf
   const color = nestLikeColorScheme[level] || ((text: string): string => text);
 
   // const customMessage = typeof message === 'object' ? JSON.stringify(message) : message;
-  console.log('###', message);
   const customMessage = message && typeof message === 'object' ? message['message'] : message;
 
   return `${color(`[@${appName}@]`)} ` +
@@ -28,7 +27,7 @@ const nestLikeConsoleFormat = (appName = 'NestWinston'): Format => format.printf
     `${safeStringify(meta)}`;
 });
 
-export const utilities = {
+export const nestWinstonUtilities = {
   format: {
     nestLike: nestLikeConsoleFormat,
   },

@@ -1,10 +1,8 @@
-import { Module } from '@nestjs/common';
+import { Module, OnApplicationShutdown } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { utilities as nestWinstonModuleUtilities, WinstonModule } from '@nestjs-toolkit/winston-logger';
-import * as winston from 'winston';
+import { nestWinstonUtilities, WinstonModule, LoggerInterceptor, winston } from '@nestjs-toolkit/winston-logger';
 import { APP_INTERCEPTOR } from '@nestjs/core';
-import { LoggerInterceptor } from '@nestjs-toolkit/winston-logger';
 import { MongooseModule } from '@nestjs/mongoose';
 import { WinstonMongoDBModule, WinstonMongoDBService } from '@nestjs-toolkit/winston-logger/transports/mongodb';
 
@@ -32,7 +30,7 @@ import { WinstonMongoDBModule, WinstonMongoDBService } from '@nestjs-toolkit/win
             level: 'verbose',
             format: winston.format.combine(
               winston.format.timestamp(),
-              nestWinstonModuleUtilities.format.nestLike(),
+              nestWinstonUtilities.format.nestLike(),
             ),
           }));
         }

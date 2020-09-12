@@ -1,14 +1,20 @@
 import { Logger } from 'winston';
-import { LoggerService } from '@nestjs/common';
+import { Inject, Injectable, LoggerService } from '@nestjs/common';
+import { ActivityBuilder, CauserActivity } from '../builders';
+import { WINSTON_MODULE_PROVIDER } from './winston.constants';
 
+@Injectable()
 export class WinstonLogger implements LoggerService {
   private context?: string;
   private additional?: Record<string, any>;
 
-  constructor(private readonly logger: Logger) {}
+  constructor(
+    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
+  ) {}
 
-  public setContext(context: string): void {
+  public setContext(context: string): this {
     this.context = context;
+    return this;
   }
 
   public setAdditional(data: Record<string, any>): void {
@@ -48,6 +54,28 @@ export class WinstonLogger implements LoggerService {
       this.extractMessage(message),
       this.extractMeta(message, context),
     );
+  }
+
+  public activity(): ActivityBuilder {
+    return new ActivityBuilder(this.logger, this.context);
+  }
+
+  public logRequest(req: any, user?: CauserActivity, context?: string): Logger {
+    return this.activity()
+      .contextIn(context || this.context)
+      .causedBy(user)
+      .request(req)
+      .log(':request.method :request.route');
+  }
+
+  public present(
+    message: any,
+    context?: string,
+  ): { meta: Record<string, any>; message: string } {
+    return {
+      message: this.extractMessage(message),
+      meta: this.extractMeta(message, context),
+    };
   }
 
   private extractMessage(message: any): string {

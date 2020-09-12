@@ -3,7 +3,7 @@ import { get, set } from 'lodash';
 import {
   RequestBuilder,
   RequestType,
-} from '@nestjs-toolkit/winston-logger/builders/request.builder';
+} from './request.builder';
 
 export interface SubjectActivity {
   _id: string;

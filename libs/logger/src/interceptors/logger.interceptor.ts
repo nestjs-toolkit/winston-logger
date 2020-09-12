@@ -5,7 +5,7 @@ import {
   ExecutionContext,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { WinstonLogger } from '@nestjs-toolkit/winston-logger';
+import { WinstonLogger } from '../winston';
 
 @Injectable()
 export class LoggerInterceptor implements NestInterceptor {

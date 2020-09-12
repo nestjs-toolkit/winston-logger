@@ -1,13 +1,15 @@
 import { Controller, Get, Req } from '@nestjs/common';
-import { AppService } from './app.service';
 import { WinstonLogger } from '@nestjs-toolkit/winston-logger';
+import { Request } from 'express';
+import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
   constructor(
     private readonly appService: AppService,
     private readonly logger: WinstonLogger,
-  ) {}
+  ) {
+  }
 
   @Get()
   getHello(@Req() req: Request): string {

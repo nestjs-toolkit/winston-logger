@@ -1,6 +1,6 @@
 {
   "name": "@nestjs-toolkit/winston-logger",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Adaptador de log com winston",
   "author": "Valmir Barbosa",
   "license": "UNLICENSED",

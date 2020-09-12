@@ -47,11 +47,16 @@ export function createWinstonAsyncProviders(
     },
     {
       provide: WINSTON_MODULE_NEST_PROVIDER,
-      useFactory: (logger: Logger) => {
-        return new WinstonLogger(logger);
-      },
-      inject: [WINSTON_MODULE_PROVIDER],
+      useClass: WinstonLogger,
     },
+    WinstonLogger,
+    // {
+    //   provide: WINSTON_MODULE_NEST_PROVIDER,
+    //   useFactory: (logger: Logger) => {
+    //     return new WinstonLogger(logger);
+    //   },
+    //   inject: [WINSTON_MODULE_PROVIDER],
+    // },
   ];
 
   if (options.useClass) {

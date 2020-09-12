@@ -32,3 +32,31 @@ if (process.env.NODE_ENV !== 'production') {
   }));
 }
 ```
+
+- LoggerInterceptor
+
+- logRequest 
+
+```ts
+this.logger.logRequest(req, req.user, 'Contextname');
+```
+
+- builder
+
+```ts
+  this.logger.builder()
+      .performedOn(anModel)
+      .causedBy(user)
+      .level('warn')
+      .request(req)
+      .tags(['first-tag', 'backend', 'admin'])
+      .action('category.create')
+      .env('production')
+      .withProperties({ 'customProperty': 'customValue' })
+      .withProperties({ 'framework': 'nestjs' })
+      .withProperty('version', 'v7.0')
+      .withProperty('demo', { foo: 'bar' })
+      .log('The subject name is :subject.name, the causer name is :causer.username and framework is :properties.framework :properties.version, demo :properties.demo.foo');
+  
+  // result message: The subject name is Leia, the causer name is Luke and framework is nestjs v7.0, demo bar
+```

@@ -1,17 +1,25 @@
-import { Controller, Get, Logger } from '@nestjs/common';
+import { Controller, Get, Req } from '@nestjs/common';
 import { AppService } from './app.service';
+import { WinstonLogger } from '@nestjs-toolkit/winston-logger';
 
 @Controller()
 export class AppController {
-  private logger = new Logger(AppController.name);
 
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appService: AppService, private readonly logger: WinstonLogger) {
+  }
 
   @Get()
-  getHello(): string {
+  getHello(@Req() req: Request): string {
     this.logger.log('AAA');
     this.logger.log({ foo: 'bar' });
     this.logger.log({ message: 'BBB', foo: 'bar' });
+
+    this.logger.activity()
+      .request(req)
+      .level('warn')
+      .withProperties({ message: 'BBB', foo: 'bar' })
+      .log('test message');
+
     return this.appService.getHello();
   }
 

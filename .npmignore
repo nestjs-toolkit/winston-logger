@@ -1,6 +1,7 @@
 # source
 libs
 test
+logs
 index.ts
 package-lock.json
 tsconfig.json

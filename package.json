@@ -22,11 +22,10 @@
     "doc": "doctoc docs --title='## Summary'",
     "commit": "git-cz",
     "release": "release-it --patch",
-    "lib:build": "yarn prebuild && tsc -p tsconfig.build.json",
+    "lib:build": "yarn prebuild && tsc -p tsconfig.build.json && mv dist/libs/logger/src/* dist && rm dist/libs -r",
     "lib:test": "jest libs/logger --coverage"
   },
   "dependencies": {
-    "@nestjs/mongoose": "^7.0.2",
     "winston": "^3.3.3"
   },
   "devDependencies": {
@@ -69,7 +68,8 @@
     "ts-node": "^8.6.2",
     "tsconfig-paths": "^3.9.0",
     "typescript": "^3.7.4",
-    "winston-mongodb": "^5.0.4"
+    "winston-mongodb": "^5.0.4",
+    "@nestjs/mongoose": "^7.0.2"
   },
   "jest": {
     "moduleFileExtensions": [

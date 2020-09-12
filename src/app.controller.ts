@@ -4,9 +4,10 @@ import { WinstonLogger } from '@nestjs-toolkit/winston-logger';
 
 @Controller()
 export class AppController {
-
-  constructor(private readonly appService: AppService, private readonly logger: WinstonLogger) {
-  }
+  constructor(
+    private readonly appService: AppService,
+    private readonly logger: WinstonLogger,
+  ) {}
 
   @Get()
   getHello(@Req() req: Request): string {
@@ -14,7 +15,8 @@ export class AppController {
     this.logger.log({ foo: 'bar' });
     this.logger.log({ message: 'BBB', foo: 'bar' });
 
-    this.logger.activity()
+    this.logger
+      .activity()
       .request(req)
       .level('warn')
       .withProperties({ message: 'BBB', foo: 'bar' })

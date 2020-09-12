@@ -8,8 +8,9 @@ export class WinstonLogger implements LoggerService {
   private context?: string;
   private additional?: Record<string, any>;
 
-  constructor(@Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger) {
-  }
+  constructor(
+    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
+  ) {}
 
   public setContext(context: string): this {
     this.context = context;
@@ -67,7 +68,10 @@ export class WinstonLogger implements LoggerService {
       .log(':request.method :request.route');
   }
 
-  public present(message: any, context?: string): { meta: Record<string, any>; message: string } {
+  public present(
+    message: any,
+    context?: string,
+  ): { meta: Record<string, any>; message: string } {
     return {
       message: this.extractMessage(message),
       meta: this.extractMeta(message, context),

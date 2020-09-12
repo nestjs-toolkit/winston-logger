@@ -1,14 +1,14 @@
 import { Request } from 'express';
 
 export interface RequestType {
-  method: string
-  route: string
+  method: string;
+  route: string;
   data: {
-    body: any,
-    query: any,
-    params: any,
-  },
-  from: string,
+    body: any;
+    query: any;
+    params: any;
+  };
+  from: string;
 }
 
 export class RequestBuilder {
@@ -28,7 +28,6 @@ export class RequestBuilder {
         delete data[k];
       }
     });
-
 
     return {
       method: req.method,

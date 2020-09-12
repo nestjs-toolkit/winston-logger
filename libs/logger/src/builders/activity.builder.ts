@@ -1,29 +1,38 @@
 import { Logger } from 'winston';
 import { get, set } from 'lodash';
-import { RequestBuilder, RequestType } from '@nestjs-toolkit/winston-logger/builders/request.builder';
+import {
+  RequestBuilder,
+  RequestType,
+} from '@nestjs-toolkit/winston-logger/builders/request.builder';
 
 export interface SubjectActivity {
-  _id: string
-  type: string
+  _id: string;
+  type: string;
 }
 
 export interface CauserActivity extends SubjectActivity {
-  username?: string
+  username?: string;
 }
 
-export type LevelActivity = 'error' | 'warn' | 'info' | 'verbose' | 'debug' | 'silly'
+export type LevelActivity =
+  | 'error'
+  | 'warn'
+  | 'info'
+  | 'verbose'
+  | 'debug'
+  | 'silly';
 
 export type ConfigActivity = {
-  level: LevelActivity
-}
+  level: LevelActivity;
+};
 
 export type MetaActivity = {
-  properties?: Record<string, any>
-  subject?: SubjectActivity
-  causer?: CauserActivity
-  request?: RequestType
-  context?: string
-}
+  properties?: Record<string, any>;
+  subject?: SubjectActivity;
+  causer?: CauserActivity;
+  request?: RequestType;
+  context?: string;
+};
 
 export class ActivityBuilder {
   private meta: MetaActivity = {};
@@ -45,7 +54,9 @@ export class ActivityBuilder {
     return this.logger.log(this.config.level, present.message, present.meta);
   }
 
-  public present(message: string): { meta: Record<string, any>; message: string } {
+  public present(
+    message: string,
+  ): { meta: Record<string, any>; message: string } {
     return {
       message: this.placeholder(message),
       meta: this.meta,
@@ -77,7 +88,9 @@ export class ActivityBuilder {
   }
 
   public request(req: any): this {
-    this.meta.request = new RequestBuilder().present(req);
+    if (req) {
+      this.meta.request = new RequestBuilder().present(req);
+    }
     return this;
   }
 
@@ -92,7 +105,10 @@ export class ActivityBuilder {
   }
 
   private placeholder(message: string): string {
-    const regex = new RegExp(':((subject|causer|properties|request)([\.a-zA-Z0-9_]+))', 'g');
+    const regex = new RegExp(
+      ':((subject|causer|properties|request)([.a-zA-Z0-9_]+))',
+      'g',
+    );
 
     let match: any[] = [];
     let newMessage = message;

@@ -19,7 +19,7 @@ describe('Activity Log', function() {
     activity().log('Foo');
 
     expect(loggerInfo).toHaveBeenCalledTimes(1);
-    expect(loggerInfo).lastCalledWith('info', 'Foo', {});
+    expect(loggerInfo).lastCalledWith('data', 'Foo', {});
   });
 
   it('present', async function() {

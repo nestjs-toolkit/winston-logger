@@ -1,6 +1,7 @@
 import { Request } from 'express';
 
 export interface RequestType {
+  host: string;
   method: string;
   route: string;
   data: {
@@ -29,9 +30,13 @@ export class RequestBuilder {
       }
     });
 
+    // fastify
+    const raw = (req as any).raw || {};
+
     return {
-      method: req.method,
-      route: req.route.path,
+      host: req.hostname,
+      method: raw.method || req.method,
+      route: raw.url || (req.route ? req.route.path : null),
       from: req.ip,
       data,
     };

@@ -1,6 +1,4 @@
-import { Injectable } from '@nestjs/common';
-import { InjectConnection } from '@nestjs/mongoose';
-import { Connection } from 'mongoose';
+import { Injectable, OnApplicationShutdown } from '@nestjs/common';
 import {
   MongoDBTransportInstance,
   MongoDBConnectionOptions,
@@ -8,8 +6,14 @@ import {
 import * as winston from 'winston';
 
 @Injectable()
-export class WinstonMongoDBService {
-  constructor(@InjectConnection() private connection: Connection) {}
+export class WinstonMongoDBService implements OnApplicationShutdown {
+  private transport: MongoDBTransportInstance;
+
+  onApplicationShutdown(signal?: string): any {
+    if (this.transport) {
+      this.transport.destroy();
+    }
+  }
 
   createTransport(
     options?: Partial<MongoDBConnectionOptions>,
@@ -17,15 +21,15 @@ export class WinstonMongoDBService {
     const WinstonMongoDB: MongoDBTransportInstance = (winston.transports as any)
       .MongoDB;
 
-    const configure = Object.assign(
+    const configure: any = Object.assign(
       {
         level: 'info',
-        db: this.connection as any,
         decolorize: true,
       },
       options,
     );
 
-    return new WinstonMongoDB(configure);
+    this.transport = new WinstonMongoDB(configure);
+    return this.transport;
   }
 }

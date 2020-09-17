@@ -17,6 +17,8 @@ export class LoggerInterceptor implements NestInterceptor {
   }
 
   private log(req) {
-    this.logger.logRequest(req, req.user, LoggerInterceptor.name);
+    if (req) {
+      this.logger.logRequest(req, req.user, LoggerInterceptor.name);
+    }
   }
 }

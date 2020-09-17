@@ -1,9 +1,6 @@
 import { Logger } from 'winston';
 import { get, set } from 'lodash';
-import {
-  RequestBuilder,
-  RequestType,
-} from './request.builder';
+import { RequestBuilder, RequestType } from './request.builder';
 
 export interface SubjectActivity {
   _id: string;
@@ -16,11 +13,13 @@ export interface CauserActivity extends SubjectActivity {
 
 export type LevelActivity =
   | 'error'
+  | 'debug'
   | 'warn'
+  | 'data'
   | 'info'
   | 'verbose'
-  | 'debug'
-  | 'silly';
+  | 'silly'
+  | 'custom';
 
 export type ConfigActivity = {
   level: LevelActivity;
@@ -31,14 +30,16 @@ export type MetaActivity = {
   subject?: SubjectActivity;
   causer?: CauserActivity;
   request?: RequestType;
+  error?: any;
   context?: string;
+  kind?: string; // type object, ex: HTTP, GQL, CATEGORY_CREATE...
 };
 
 export class ActivityBuilder {
   private meta: MetaActivity = {};
 
   private config: ConfigActivity = {
-    level: 'info',
+    level: 'data',
   };
 
   constructor(private readonly logger: Logger, context?: string) {
@@ -63,6 +64,17 @@ export class ActivityBuilder {
     };
   }
 
+  public error(error: Error): this {
+    this.level('error');
+    this.meta.error = {
+      message: error.message,
+      trace: error.stack,
+      name: error.name,
+      ...error,
+    };
+    return this;
+  }
+
   public level(level: LevelActivity): this {
     this.config.level = level;
     return this;
@@ -71,6 +83,13 @@ export class ActivityBuilder {
   public contextIn(context?: string): this {
     if (context) {
       this.meta.context = context;
+    }
+    return this;
+  }
+
+  public kind(k?: string): this {
+    if (k) {
+      this.meta.kind = k;
     }
     return this;
   }
@@ -94,6 +113,14 @@ export class ActivityBuilder {
     return this;
   }
 
+  public requestGql(req: any): this {
+    if (req) {
+      this.meta.request = new RequestBuilder().present(req);
+      delete this.meta.request.data;
+    }
+    return this;
+  }
+
   public withProperty(key: string, value: any): this {
     this.meta.properties = set(this.properties, key, value);
     return this;
@@ -106,7 +133,7 @@ export class ActivityBuilder {
 
   private placeholder(message: string): string {
     const regex = new RegExp(
-      ':((subject|causer|properties|request)([.a-zA-Z0-9_]+))',
+      ':((subject|causer|properties|request|error)([.a-zA-Z0-9_]+))',
       'g',
     );
 

@@ -1,9 +1,6 @@
 import { Logger } from 'winston';
 import { get, set } from 'lodash';
-import {
-  RequestBuilder,
-  RequestType,
-} from './request.builder';
+import { RequestBuilder, RequestType } from './request.builder';
 
 export interface SubjectActivity {
   _id: string;
@@ -35,7 +32,7 @@ export type MetaActivity = {
   request?: RequestType;
   error?: any;
   context?: string;
-  kind?: string;// type object, ex: HTTP, GQL, CATEGORY_CREATE...
+  kind?: string; // type object, ex: HTTP, GQL, CATEGORY_CREATE...
 };
 
 export class ActivityBuilder {

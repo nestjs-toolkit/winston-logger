@@ -14,7 +14,10 @@ const nestLikeColorScheme: Record<string, bare.Format> = {
 };
 
 const formatGqlError = ({ metadata }: any): string => {
-  const gql = metadata.properties && metadata.properties.gql ? metadata.properties.gql : {};
+  const gql =
+    metadata.properties && metadata.properties.gql
+      ? metadata.properties.gql
+      : {};
   return [
     null,
     clc.yellow(`GQL ${gql.operation} ${gql.operationName}:`),
@@ -29,10 +32,8 @@ const formatGqlError = ({ metadata }: any): string => {
   ].join('\n');
 };
 
-
 const nestLikeConsoleFormat = (appName = 'NestWinston'): Format =>
   format.printf(({ context, level, timestamp, message, ...meta }) => {
-
     const color =
       nestLikeColorScheme[level] || ((text: string): string => text);
 

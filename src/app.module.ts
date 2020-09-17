@@ -8,15 +8,42 @@ import {
   winston,
 } from '@nestjs-toolkit/winston-logger';
 import { APP_INTERCEPTOR } from '@nestjs/core';
-import { MongooseModule } from '@nestjs/mongoose';
+// import { MongooseModule } from '@nestjs/mongoose';
 import {
   WinstonMongoDBModule,
   WinstonMongoDBService,
 } from '@nestjs-toolkit/winston-logger/transports/mongodb';
 
+
+//
+// Logging levels
+//
+const configWinston = {
+  levels: {
+    error: 0,
+    debug: 1,
+    warn: 2,
+    data: 3,
+    info: 4,
+    verbose: 5,
+    silly: 6,
+    custom: 7,
+  },
+  colors: {
+    error: 'red',
+    debug: 'blue',
+    warn: 'yellow',
+    data: 'grey',
+    info: 'green',
+    verbose: 'cyan',
+    silly: 'magenta',
+    custom: 'yellow',
+  },
+};
+
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost/nest'),
+    // MongooseModule.forRoot('mongodb://localhost/nest'),
     WinstonModule.forRootAsync({
       useFactory: (winstonMongoDB: WinstonMongoDBService) => {
         const transports: any[] = [
@@ -27,6 +54,8 @@ import {
           }),
           winstonMongoDB.createTransport({
             level: 'info',
+            db: 'mongodb://localhost/nest',
+            leaveConnectionOpen: false,
           }),
         ];
 
@@ -42,8 +71,10 @@ import {
           );
         }
 
+        winston.addColors(configWinston.colors);
+
         return {
-          levels: winston.config.npm.levels,
+          levels: configWinston.levels,
           format: winston.format.combine(
             winston.format.metadata(),
             winston.format.json(),
@@ -64,4 +95,5 @@ import {
     },
   ],
 })
-export class AppModule {}
+export class AppModule {
+}

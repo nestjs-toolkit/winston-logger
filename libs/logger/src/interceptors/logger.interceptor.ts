@@ -9,8 +9,7 @@ import { WinstonLogger } from '../winston';
 
 @Injectable()
 export class LoggerInterceptor implements NestInterceptor {
-  constructor(private readonly logger: WinstonLogger) {
-  }
+  constructor(private readonly logger: WinstonLogger) {}
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     this.log(context.switchToHttp().getRequest());

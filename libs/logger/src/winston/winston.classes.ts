@@ -2,6 +2,7 @@ import { Logger } from 'winston';
 import { Inject, Injectable, LoggerService } from '@nestjs/common';
 import { ActivityBuilder, CauserActivity } from '../builders';
 import { WINSTON_MODULE_PROVIDER } from './winston.constants';
+import { GraphQLRequestContextDidEncounterErrors, GraphQLRequestContextWillSendResponse } from 'apollo-server-types';
 
 @Injectable()
 export class WinstonLogger implements LoggerService {
@@ -10,7 +11,8 @@ export class WinstonLogger implements LoggerService {
 
   constructor(
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
-  ) {}
+  ) {
+  }
 
   public setContext(context: string): this {
     this.context = context;
@@ -28,10 +30,10 @@ export class WinstonLogger implements LoggerService {
     );
   }
 
-  public error(message: any, trace?: string, context?: string): Logger {
+  public error(message: any, trace?: string, context?: string, data?: any): Logger {
     return this.logger.error(
       this.extractMessage(message),
-      this.extractMeta(message, context, { trace }),
+      this.extractMeta(message, context, { trace: trace || message.stack, ...data }),
     );
   }
 
@@ -60,12 +62,55 @@ export class WinstonLogger implements LoggerService {
     return new ActivityBuilder(this.logger, this.context);
   }
 
-  public logRequest(req: any, user?: CauserActivity, context?: string): Logger {
+  public logRequest(req: any, user?: CauserActivity, context?: string, data?: any): Logger {
     return this.activity()
+      .kind('HTTP')
       .contextIn(context || this.context)
       .causedBy(user)
       .request(req)
+      .withProperties(data)
       .log(':request.method :request.route');
+  }
+
+  public logGraphqlRequest(requestContext: GraphQLRequestContextWillSendResponse<any>, user?: CauserActivity, context?: string, data?: any): Logger {
+    const gql = requestContext.request ? {
+      operation: requestContext.operation ? requestContext.operation.operation : '5',
+      operationName: requestContext.request.operationName,
+      variables: requestContext.request.variables,
+      query: requestContext.request.query,
+    } : null;
+
+    return this.activity()
+      .kind('GQL')
+      .contextIn(context || this.context)
+      .causedBy(user)
+      .requestGql(requestContext.context.request)
+      .withProperties(data)
+      .withProperty('gql', gql)
+      .log(':properties.gql.operation: :properties.gql.operationName');
+  }
+
+  public logGraphqlError(requestContext: GraphQLRequestContextDidEncounterErrors<any>, user?: CauserActivity, context?: string, data?: any): Logger[] {
+    const gql = requestContext.request ? {
+      operation: requestContext.operation ? requestContext.operation.operation : '5',
+      operationName: requestContext.request.operationName,
+      variables: requestContext.request.variables,
+      query: requestContext.request.query,
+    } : null;
+
+    console.log(requestContext.context.request);
+
+    return requestContext.errors.map(error => this.activity()
+      .kind('GQL_ERROR')
+      .contextIn(context || this.context)
+      .causedBy(user)
+      .requestGql(requestContext.context.request)
+      .withProperties(data)
+      .withProperty('gql', gql)
+      .error(error)
+      .log(':properties.gql.operation: :properties.gql.operationName | error: :error.message')
+    );
+
   }
 
   public present(
@@ -81,16 +126,20 @@ export class WinstonLogger implements LoggerService {
   private extractMessage(message: any): string {
     if (typeof message === 'string') {
       return message;
-    } else if (typeof message === 'object' && message.message) {
+    }
+
+    if (typeof message === 'object' && message.message) {
       return typeof message.message === 'object'
         ? JSON.stringify(message)
         : message.message;
-    } else if (typeof message === 'object') {
-      return null;
-      // return JSON.stringify(message);
-    } else {
-      return message;
     }
+
+    if (typeof message === 'object') {
+      // return JSON.stringify(message);
+      return null;
+    }
+
+    return message;
   }
 
   private extractMeta(

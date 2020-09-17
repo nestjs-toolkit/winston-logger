@@ -5,25 +5,49 @@ import { format } from 'winston';
 import safeStringify from 'fast-safe-stringify';
 
 const nestLikeColorScheme: Record<string, bare.Format> = {
-  info: clc.greenBright,
   error: clc.red,
-  warn: clc.yellow,
   debug: clc.magentaBright,
+  warn: clc.yellow,
+  data: clc.magenta,
+  info: clc.greenBright,
   verbose: clc.cyanBright,
 };
 
+const formatGqlError = ({ metadata }: any): string => {
+  const gql = metadata.properties && metadata.properties.gql ? metadata.properties.gql : {};
+  return [
+    null,
+    clc.yellow(`GQL ${gql.operation} ${gql.operationName}:`),
+    gql.query,
+    `VARIABLES: ${JSON.stringify(gql.variables)}`,
+    null,
+    clc.red('EXTENSIONS:'),
+    JSON.stringify(metadata.error.extensions),
+    null,
+    clc.red('TRACE:'),
+    metadata.error.trace,
+  ].join('\n');
+};
+
+
 const nestLikeConsoleFormat = (appName = 'NestWinston'): Format =>
   format.printf(({ context, level, timestamp, message, ...meta }) => {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+
     const color =
       nestLikeColorScheme[level] || ((text: string): string => text);
 
-    // const customMessage = typeof message === 'object' ? JSON.stringify(message) : message;
     const customMessage =
       message && typeof message === 'object' ? message['message'] : message;
 
+    let strMeta;
+    if (meta.metadata && meta.metadata.kind === 'GQL_ERROR') {
+      strMeta = formatGqlError(meta);
+    } else {
+      strMeta = safeStringify(meta);
+    }
+
     return (
-      `${color(`[@${appName}@]`)} ` +
+      `${color(`[${appName}]`)} ` +
       `${clc.yellow(level.charAt(0).toUpperCase() + level.slice(1))}\t` +
       ('undefined' !== typeof timestamp
         ? `${new Date(timestamp).toLocaleString()} `
@@ -32,7 +56,7 @@ const nestLikeConsoleFormat = (appName = 'NestWinston'): Format =>
         ? `${clc.yellow('[' + context + ']')} `
         : '') +
       `${color(customMessage)} - ` +
-      `${safeStringify(meta)}`
+      `${strMeta}`
     );
   });
 

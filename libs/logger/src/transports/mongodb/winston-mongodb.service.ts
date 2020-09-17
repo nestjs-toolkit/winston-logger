@@ -1,6 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { InjectConnection } from '@nestjs/mongoose';
-import { Connection } from 'mongoose';
 import {
   MongoDBTransportInstance,
   MongoDBConnectionOptions,
@@ -9,18 +7,15 @@ import * as winston from 'winston';
 
 @Injectable()
 export class WinstonMongoDBService {
-  constructor(@InjectConnection() private connection: Connection) {}
-
   createTransport(
     options?: Partial<MongoDBConnectionOptions>,
   ): MongoDBTransportInstance {
     const WinstonMongoDB: MongoDBTransportInstance = (winston.transports as any)
       .MongoDB;
 
-    const configure = Object.assign(
+    const configure: any = Object.assign(
       {
         level: 'info',
-        db: this.connection as any,
         decolorize: true,
       },
       options,

@@ -35,8 +35,7 @@ describe('Activity Log', function() {
     class Person {
       public type = 'person';
 
-      constructor(public _id: string, public name: string) {
-      }
+      constructor(public _id: string, public name: string) {}
     }
 
     const anModel = new Person('0001', 'Leia');
@@ -71,7 +70,11 @@ describe('Activity Log', function() {
       .action('category.create')
       .present('message');
 
-    expect(meta.properties.tags).toStrictEqual(['first-tag', 'backend', 'admin']);
+    expect(meta.properties.tags).toStrictEqual([
+      'first-tag',
+      'backend',
+      'admin',
+    ]);
   });
 
   it('add single tags', function() {
@@ -89,6 +92,10 @@ describe('Activity Log', function() {
       .action('category.create')
       .present('message');
 
-    expect(meta.properties.tags).toStrictEqual(['first-tag', 'backend', 'admin']);
+    expect(meta.properties.tags).toStrictEqual([
+      'first-tag',
+      'backend',
+      'admin',
+    ]);
   });
 });

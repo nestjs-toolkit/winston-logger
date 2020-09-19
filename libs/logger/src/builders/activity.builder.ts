@@ -123,7 +123,8 @@ export class ActivityBuilder {
 
   public performedOn(model: SubjectActivity, type?: string): this {
     if (model) {
-      this.meta.subject = typeof model.toJSON === 'function' ? model.toJSON() : model;
+      this.meta.subject =
+        typeof model.toJSON === 'function' ? model.toJSON() : model;
       this.meta.subjectCollection = type;
     }
 

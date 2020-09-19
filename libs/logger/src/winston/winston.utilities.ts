@@ -64,11 +64,11 @@ const nestLikeConsoleFormat = (appName = 'NestWinston'): Format =>
   });
 
 export type DetailedDiffOldType = {
-  added: Record<string, any>,
-  deleted: Record<string, any>,
-  updated: Record<string, any>,
-  old: Record<string, any>,
-}
+  added: Record<string, any>;
+  deleted: Record<string, any>;
+  updated: Record<string, any>;
+  old: Record<string, any>;
+};
 
 const detailedDiffOld = (oldData, newData): DetailedDiffOldType => {
   const diff: any = detailedDiff(oldData, newData);

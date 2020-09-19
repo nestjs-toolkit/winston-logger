@@ -1,10 +1,13 @@
 import { Logger } from 'winston';
 import { get, set } from 'lodash';
 import { RequestBuilder, RequestType } from './request.builder';
+import { OnModelChangedEvent } from '@nestjs-toolkit/winston-logger/types';
 
 export interface SubjectActivity {
-  _id: string;
-  type: string;
+  _id?: string;
+  id?: string;
+  collection?: string;
+  toJSON?: () => any;
 }
 
 export interface CauserActivity extends SubjectActivity {
@@ -16,6 +19,7 @@ export type LevelActivity =
   | 'debug'
   | 'warn'
   | 'data'
+  | 'http'
   | 'info'
   | 'verbose'
   | 'silly'
@@ -28,7 +32,9 @@ export type ConfigActivity = {
 export type MetaActivity = {
   properties?: Record<string, any>;
   subject?: SubjectActivity;
+  subjectCollection?: string;
   causer?: CauserActivity;
+  causerCollection?: string;
   request?: RequestType;
   error?: any;
   context?: string;
@@ -58,20 +64,41 @@ export class ActivityBuilder {
   public present(
     message: string,
   ): { meta: Record<string, any>; message: string } {
+    const text = this.placeholder(message);
+
+    if (this.meta.subject) {
+      this.meta.subject = {
+        id: this.meta.subject._id || this.meta.subject.id,
+        collection: this.meta.subjectCollection,
+      };
+    }
+
+    if (this.meta.causer) {
+      this.meta.causer = {
+        id: this.meta.causer._id || this.meta.causer.id,
+        collection: this.meta.causerCollection,
+      };
+    }
+
+    delete this.meta.causerCollection;
+    delete this.meta.subjectCollection;
+
     return {
-      message: this.placeholder(message),
+      message: text,
       meta: this.meta,
     };
   }
 
   public error(error: Error): this {
     this.level('error');
+
     this.meta.error = {
       message: error.message,
       trace: error.stack,
       name: error.name,
       ...error,
     };
+
     return this;
   }
 
@@ -94,14 +121,20 @@ export class ActivityBuilder {
     return this;
   }
 
-  public performedOn(model: SubjectActivity): this {
-    this.meta.subject = model;
+  public performedOn(model: SubjectActivity, type?: string): this {
+    if (model) {
+      this.meta.subject =
+        typeof model.toJSON === 'function' ? model.toJSON() : model;
+      this.meta.subjectCollection = type;
+    }
+
     return this;
   }
 
-  public causedBy(user?: CauserActivity): this {
+  public causedBy(user?: CauserActivity, type?: string): this {
     if (user) {
       this.meta.causer = user;
+      this.meta.causerCollection = type;
     }
     return this;
   }
@@ -118,6 +151,20 @@ export class ActivityBuilder {
       this.meta.request = new RequestBuilder().present(req);
       delete this.meta.request.data;
     }
+    return this;
+  }
+
+  public withEvent(event: OnModelChangedEvent): this {
+    this.request(event.req)
+      .causedBy(event.user, 'user')
+      .tags(event.tags)
+      .performedOn(event.model, event.collection)
+      .action(event.action);
+
+    if (event.detailedDiff) {
+      this.withProperty('diff', event.detailedDiff);
+    }
+
     return this;
   }
 
@@ -148,13 +195,22 @@ export class ActivityBuilder {
     return newMessage;
   }
 
-  public tags(tags: string[]): this {
-    this.withProperty('tags', tags);
+  public tags(...args): this {
+    if (args.length === 1) {
+      if (typeof args[0] === 'string') {
+        this.withProperty('tags', [args[0]]);
+      } else if (Array.isArray(args[0])) {
+        this.withProperty('tags', args[0]);
+      }
+    } else if (args.length > 1) {
+      this.withProperty('tags', [...args]);
+    }
+
     return this;
   }
 
   public action(action: string): this {
-    this.withProperty('tags', action);
+    this.withProperty('action', action);
     return this;
   }
 

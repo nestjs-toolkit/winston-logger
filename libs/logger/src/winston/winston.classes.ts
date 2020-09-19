@@ -106,6 +106,7 @@ export class WinstonLogger implements LoggerService {
 
     return this.activity()
       .kind('GQL')
+      .level('http')
       .contextIn(context || this.context)
       .causedBy(user)
       .requestGql(requestContext.context.request)
@@ -130,8 +131,6 @@ export class WinstonLogger implements LoggerService {
           query: requestContext.request.query,
         }
       : null;
-
-    console.log(requestContext.context.request);
 
     return requestContext.errors.map(error =>
       this.activity()

@@ -9,7 +9,7 @@ import * as winston from 'winston';
 export class WinstonMongoDBService implements OnApplicationShutdown {
   private transport: MongoDBTransportInstance;
 
-  onApplicationShutdown(signal?: string): any {
+  onApplicationShutdown(): any {
     if (this.transport) {
       this.transport.destroy();
     }

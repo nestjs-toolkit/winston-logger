@@ -14,7 +14,6 @@ import {
   WinstonMongoDBService,
 } from '@nestjs-toolkit/winston-logger/transports/mongodb';
 
-
 //
 // Logging levels
 //
@@ -24,16 +23,18 @@ const configWinston = {
     debug: 1,
     warn: 2,
     data: 3,
-    info: 4,
-    verbose: 5,
-    silly: 6,
-    custom: 7,
+    http: 4,
+    info: 5,
+    verbose: 6,
+    silly: 7,
+    custom: 8,
   },
   colors: {
     error: 'red',
     debug: 'blue',
     warn: 'yellow',
     data: 'grey',
+    http: 'grey',
     info: 'green',
     verbose: 'cyan',
     silly: 'magenta',
@@ -95,5 +96,4 @@ const configWinston = {
     },
   ],
 })
-export class AppModule {
-}
+export class AppModule {}

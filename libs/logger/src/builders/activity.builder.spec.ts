@@ -22,7 +22,7 @@ describe('Activity Log', function() {
     expect(loggerInfo).lastCalledWith('data', 'Foo', {});
   });
 
-  it('present', async function() {
+  it('present', function() {
     const result = activity().present('Foo');
 
     expect(result).toStrictEqual({
@@ -31,18 +31,18 @@ describe('Activity Log', function() {
     });
   });
 
-  it('message placeholder', async function() {
+  it('message placeholder', function() {
     class Person {
       public type = 'person';
 
-      constructor(public _id: string, public name: string) {}
+      constructor(public _id: string, public name: string) {
+      }
     }
 
     const anModel = new Person('0001', 'Leia');
     const user: CauserActivity = {
       _id: '123456',
       username: 'Luke',
-      type: 'user',
     };
 
     const { message } = activity()
@@ -63,5 +63,32 @@ describe('Activity Log', function() {
     expect(message).toBe(
       'The subject name is Leia, the causer name is Luke and framework is nestjs v7.0, demo bar',
     );
+  });
+
+  it('add tags from array', function() {
+    const { meta } = activity()
+      .tags(['first-tag', 'backend', 'admin'])
+      .action('category.create')
+      .present('message');
+
+    expect(meta.properties.tags).toStrictEqual(['first-tag', 'backend', 'admin']);
+  });
+
+  it('add single tags', function() {
+    const { meta } = activity()
+      .tags('first-tag')
+      .action('category.create')
+      .present('message');
+
+    expect(meta.properties.tags).toStrictEqual(['first-tag']);
+  });
+
+  it('add tags from arguments', function() {
+    const { meta } = activity()
+      .tags('first-tag', 'backend', 'admin')
+      .action('category.create')
+      .present('message');
+
+    expect(meta.properties.tags).toStrictEqual(['first-tag', 'backend', 'admin']);
   });
 });

@@ -36,7 +36,7 @@ export class RequestBuilder {
     return {
       host: req.hostname,
       method: raw.method || req.method,
-      route: raw.url || (req.route ? req.route.path : null),
+      route: raw.url || req.originalUrl,
       from: req.ip,
       data,
     };

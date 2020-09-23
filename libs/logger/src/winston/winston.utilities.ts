@@ -35,12 +35,20 @@ const formatGqlError = ({ metadata }: any): string => {
 };
 
 const nestLikeConsoleFormat = (appName = 'NestWinston'): Format =>
-  format.printf(({ context, level, timestamp, message, ...meta }) => {
+  format.printf(({ level, timestamp, message, ...meta }) => {
     const color =
       nestLikeColorScheme[level] || ((text: string): string => text);
 
+    const context = meta.context || meta.metadata?.context;
+
     const customMessage =
       message && typeof message === 'object' ? message['message'] : message;
+
+    // TODO remove text: - {"metadata":{}}
+    delete meta.metadata?.context;
+    if (meta.metadata && Object.values(meta.metadata).length === 0) {
+      delete meta.metadata;
+    }
 
     let strMeta;
     if (meta.metadata && meta.metadata.kind === 'GQL_ERROR') {
@@ -51,15 +59,11 @@ const nestLikeConsoleFormat = (appName = 'NestWinston'): Format =>
 
     return (
       `${color(`[${appName}]`)} ` +
-      `${clc.yellow(level.charAt(0).toUpperCase() + level.slice(1))}\t` +
-      ('undefined' !== typeof timestamp
-        ? `${new Date(timestamp).toLocaleString()} `
-        : '') +
-      ('undefined' !== typeof context
-        ? `${clc.yellow('[' + context + ']')} `
-        : '') +
+      `${clc.yellow(level)}\t` +
+      (timestamp ? `${new Date(timestamp).toLocaleString()} ` : '') +
+      (context ? `${clc.yellow('[' + context + ']')} ` : '') +
       `${color(customMessage)} - ` +
-      `${strMeta}`
+      `${strMeta !== '{}' ? strMeta : ''}`
     );
   });
 

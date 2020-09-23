@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { CauserActivity } from '../builders';
+import { CauserActivity } from '../types';
 
 export interface OnModelChangedEvent {
   readonly action: string;

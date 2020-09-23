@@ -1,45 +1,14 @@
 import { Logger } from 'winston';
 import { get, set } from 'lodash';
-import { RequestBuilder, RequestType } from './request.builder';
-import { OnModelChangedEvent } from '@nestjs-toolkit/winston-logger/types';
-
-export interface SubjectActivity {
-  _id?: string;
-  id?: string;
-  collection?: string;
-  toJSON?: () => any;
-}
-
-export interface CauserActivity extends SubjectActivity {
-  username?: string;
-}
-
-export type LevelActivity =
-  | 'error'
-  | 'debug'
-  | 'warn'
-  | 'data'
-  | 'http'
-  | 'info'
-  | 'verbose'
-  | 'silly'
-  | 'custom';
-
-export type ConfigActivity = {
-  level: LevelActivity;
-};
-
-export type MetaActivity = {
-  properties?: Record<string, any>;
-  subject?: SubjectActivity;
-  subjectCollection?: string;
-  causer?: CauserActivity;
-  causerCollection?: string;
-  request?: RequestType;
-  error?: any;
-  context?: string;
-  kind?: string; // type object, ex: HTTP, GQL, CATEGORY_CREATE...
-};
+import { RequestBuilder } from './request.builder';
+import {
+  CauserActivity,
+  ConfigActivity,
+  LevelActivity,
+  MetaActivity,
+  OnModelChangedEvent,
+  SubjectActivity,
+} from '../types';
 
 export class ActivityBuilder {
   private meta: MetaActivity = {};

@@ -1,11 +1,12 @@
 import { Logger } from 'winston';
 import { Inject, Injectable, LoggerService } from '@nestjs/common';
-import { ActivityBuilder, CauserActivity } from '../builders';
-import { WINSTON_MODULE_PROVIDER } from './winston.constants';
 import {
   GraphQLRequestContextDidEncounterErrors,
   GraphQLRequestContextWillSendResponse,
 } from 'apollo-server-types';
+import { ActivityBuilder } from '../builders';
+import { WINSTON_MODULE_PROVIDER } from './winston.constants';
+import { CauserActivity } from '../types';
 
 @Injectable()
 export class WinstonLogger implements LoggerService {
@@ -109,7 +110,7 @@ export class WinstonLogger implements LoggerService {
       .level('http')
       .contextIn(context || this.context)
       .causedBy(user)
-      .requestGql(requestContext.context.request)
+      .requestGql(requestContext.context.req)
       .withProperties(data)
       .withProperty('gql', gql)
       .log(':properties.gql.operation: :properties.gql.operationName');
@@ -137,7 +138,7 @@ export class WinstonLogger implements LoggerService {
         .kind('GQL_ERROR')
         .contextIn(context || this.context)
         .causedBy(user)
-        .requestGql(requestContext.context.request)
+        .requestGql(requestContext.context.req)
         .withProperties(data)
         .withProperty('gql', gql)
         .error(error)

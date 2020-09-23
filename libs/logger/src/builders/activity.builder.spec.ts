@@ -1,4 +1,5 @@
-import { ActivityBuilder, CauserActivity } from './activity.builder';
+import { ActivityBuilder } from './activity.builder';
+import { CauserActivity } from '../types';
 
 describe('Activity Log', function() {
   const loggerInfo = jest.fn();

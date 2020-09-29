@@ -1,4 +1,4 @@
-import { RequestType } from '@nestjs-toolkit/winston-logger/builders';
+import { RequestType } from '../builders';
 
 export interface SubjectActivity {
   _id?: string;

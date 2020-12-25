@@ -6,9 +6,6 @@
     "skipChecks": false,
     "release": true
   },
-  "npm": {
-    "publish": true
-  },
   "hooks": {
     "after:bump": "yarn lib:build",
     "after:git:release": "echo After git push, before github release",

@@ -1,5 +1,6 @@
 import { Logger } from 'winston';
 import { get, set } from 'lodash';
+
 import { RequestBuilder } from './request.builder';
 import {
   CauserActivity,

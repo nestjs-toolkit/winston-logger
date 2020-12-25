@@ -1,6 +1,7 @@
 import { Injectable, Module } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { expect } from 'chai';
+
 import {
   WINSTON_MODULE_NEST_PROVIDER,
   WINSTON_MODULE_PROVIDER,

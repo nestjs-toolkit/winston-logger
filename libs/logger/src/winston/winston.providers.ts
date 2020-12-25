@@ -1,5 +1,6 @@
 import { Logger, LoggerOptions, createLogger } from 'winston';
 import { Provider, Type } from '@nestjs/common';
+
 import {
   WINSTON_MODULE_NEST_PROVIDER,
   WINSTON_MODULE_OPTIONS,

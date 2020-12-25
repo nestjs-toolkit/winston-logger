@@ -4,7 +4,6 @@ import { AppService } from './app.service';
 import {
   nestWinstonUtilities,
   WinstonModule,
-  LoggerInterceptor,
   winston,
 } from '@nestjs-toolkit/winston-logger';
 import { APP_INTERCEPTOR } from '@nestjs/core';
@@ -13,6 +12,7 @@ import {
   WinstonMongoDBModule,
   WinstonMongoDBService,
 } from '@nestjs-toolkit/winston-logger/transports/mongodb';
+import { LoggerInterceptor } from '@nestjs-toolkit/winston-logger/interceptors';
 
 //
 // Logging levels

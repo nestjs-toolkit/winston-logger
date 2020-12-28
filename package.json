@@ -25,6 +25,7 @@
     "lib:test": "jest libs/logger --coverage"
   },
   "dependencies": {
+    "lodash": "^4.17.20",
     "winston": "^3.3.3"
   },
   "devDependencies": {

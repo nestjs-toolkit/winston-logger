@@ -1,9 +1,10 @@
 {
   "name": "@nestjs-toolkit/winston-logger",
-  "version": "0.1.15",
+  "version": "0.1.17",
   "description": "winston Adapter log nestjs",
   "author": "Valmir Barbosa",
   "license": "MIT",
+  "private": true,
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",

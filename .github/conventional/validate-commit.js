@@ -15,6 +15,11 @@
 const chalk = require('chalk');
 
 const msgPath = process.env.HUSKY_GIT_PARAMS;
+
+if(!msgPath){
+  return;
+}
+
 const msg = require('fs')
   .readFileSync(msgPath, 'utf-8')
   .trim();
@@ -46,5 +51,5 @@ if (!commitRE.test(msg)) {
       )} to interactively generate a commit message.\n`,
     )}`,
   );
-  process.exit(1);
+  // process.exit(1);
 }

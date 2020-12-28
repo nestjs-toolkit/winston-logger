@@ -19,6 +19,8 @@ const msg = require('fs')
   .readFileSync(msgPath, 'utf-8')
   .trim();
 
+console.log(`VALIDATE MSN GIT: ${msg}`);
+
 const versionRE = /^(\d+\.)?(\d+\.)?(\*|\d+)$/;
 const commitRE = /^(revert: )?(feat|fix|docs|style|refactor|perf|test|workflow|ci|chore|types|build)(\(.+\))?: .{1,50}/;
 

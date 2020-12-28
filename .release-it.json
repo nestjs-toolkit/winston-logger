@@ -21,7 +21,7 @@
     "skipChecks": false
   },
   "npm": {
-    "publish": false
+    "publish": true
   },
   "hooks": {
     "after:bump": "yarn lib:build",

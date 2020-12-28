@@ -1,6 +1,6 @@
 {
   "name": "@nestjs-toolkit/winston-logger",
-  "version": "0.1.22",
+  "version": "0.1.23",
   "description": "winston Adapter log nestjs",
   "author": "Valmir Barbosa",
   "license": "MIT",
@@ -20,7 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "doc": "doctoc docs --title='## Summary'",
     "commit": "git-cz",
-    "release": "DEBUG=release-it:* release-it --patch",
+    "release": "release-it --patch",
     "lib:build": "yarn prebuild && tsc -p tsconfig.build.json && mv dist/libs/logger/src/* dist && rm dist/libs -r",
     "lib:test": "jest libs/logger --coverage"
   },

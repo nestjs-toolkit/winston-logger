@@ -96,7 +96,7 @@
       "@nestjs-toolkit/winston-logger": "<rootDir>/libs/logger/src"
     }
   },
-  "husky2": {
+  "husky": {
     "hooks": {
       "pre-commit": "yarn doc && yarn format && git add docs",
       "pre-push": "yarn lint",

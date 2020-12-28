@@ -1,6 +1,6 @@
 {
   "name": "@nestjs-toolkit/winston-logger",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "description": "winston Adapter log nestjs",
   "author": "Valmir Barbosa",
   "license": "MIT",
@@ -98,7 +98,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn format",
+      "pre-commit": "yarn doc && yarn format && git add ./.etc/docs",
       "pre-push": "yarn lint",
       "commit-msg": "node ./.github/conventional/validate-commit.js"
     }

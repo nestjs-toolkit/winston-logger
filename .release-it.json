@@ -1,11 +1,24 @@
 {
   "git": {
+    "requireCleanWorkingDir": false,
+    "requireBranch": false,
+    "requireUpstream": true,
+    "requireCommits": false,
+    "addUntrackedFiles": false,
+    "commit": true,
     "commitMessage": "chore: release v${version}",
-    "tagAnnotation": "build: ${version}"
+    "commitArgs": ["--no-verify"],
+    "tag": true,
+    "tagName": null,
+    "tagAnnotation": "build: ${version}",
+    "tagArgs": [],
+    "push": true,
+    "pushArgs": ["--follow-tags"],
+    "pushRepo": ""
   },
   "github": {
-    "skipChecks": false,
-    "release": true
+    "release": true,
+    "skipChecks": false
   },
   "npm": {
     "publish": false

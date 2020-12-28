@@ -30,8 +30,8 @@ if (!commitRE.test(msg)) {
   console.log();
   console.error(
     `  ${chalk.bgRed.white(' ERROR ')} ${chalk.red(
-      'invalid commit message format:',
-    )} ${chalk.yellow(msg)} \n\n${chalk.red(
+      'invalid commit message format.',
+    )}\n\nMESSAGE: ${msg}\n\n${chalk.red(
       '  Proper commit message format is required for automated changelog generation. Examples:\n\n',
     )}    ${chalk.green('feat(route): add support for prefix')}\n` +
     `    ${chalk.green(
@@ -46,4 +46,3 @@ if (!commitRE.test(msg)) {
   );
   process.exit(1);
 }
-

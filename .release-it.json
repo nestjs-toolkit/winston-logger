@@ -1,13 +1,11 @@
 {
   "git": {
-    "commitMessage": "chore: release v${version}"
+    "commitMessage": "chore: release v${version}",
+    "tagAnnotation": "build: ${version}"
   },
   "github": {
     "skipChecks": false,
     "release": true
-  },
-  "npm": {
-    "publish": true
   },
   "hooks": {
     "after:bump": "yarn lib:build",

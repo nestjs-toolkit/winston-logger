@@ -1,9 +1,9 @@
-name: NestJs Workflow
+name: Lib Workflow
 
 on: [ pull_request ]
 
 jobs:
-  test-ci:
+  ci:
 
     runs-on: ubuntu-18.04
 

@@ -1,6 +1,7 @@
 {
   "git": {
-    "commitMessage": "chore: release v${version}"
+    "commitMessage": "chore: release v${version}",
+    "tagAnnotation": "build: ${version}"
   },
   "github": {
     "skipChecks": false,

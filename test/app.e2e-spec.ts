@@ -1,29 +1,51 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
+import { MongoMemoryServer } from 'mongodb-memory-server';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
+import { Model } from 'mongoose';
 
 describe('AppController (e2e)', () => {
-  let app: INestApplication;
+  const mongoServer = new MongoMemoryServer();
 
-  beforeEach(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
+  let app: INestApplication;
+  let moduleFixture: TestingModule;
+
+  beforeAll(async () => {
+    process.env['MONGO_TEST_URI'] = await mongoServer.getUri();
+
+    moduleFixture = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
 
     app = moduleFixture.createNestApplication();
+
+    app.getHttpServer().ready;
     await app.init();
   });
 
-  afterEach(async () => {
+  afterAll(async done => {
     await app.close();
+
+    setTimeout(async () => {
+      await mongoServer.stop();
+      done();
+    }, 500);
   });
 
-  it('/ (GET)', () => {
-    // TODO: create test check in mongodb see log
-    return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
-  });
+  it('/ (GET) - see logger', async done => {
+    const { status } = await request(app.getHttpServer()).get('/');
+    expect(status).toEqual(200);
+
+    setTimeout(async () => {
+      const model = moduleFixture.get<Model<any>>('LOG_MODEL');
+      const data = await model.find({});
+
+      expect(data).toHaveLength(5);
+      // TODO: check log
+      // data.forEach(row => console.log(row.toJSON().meta));
+
+      done();
+    }, 1000);
+  }, 10000);
 });

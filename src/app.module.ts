@@ -7,7 +7,7 @@ import {
   winston,
 } from '@nestjs-toolkit/winston-logger';
 import { APP_INTERCEPTOR } from '@nestjs/core';
-// import { MongooseModule } from '@nestjs/mongoose';
+import { MongooseModule } from '@nestjs/mongoose';
 import {
   WinstonMongoDBModule,
   WinstonMongoDBService,
@@ -44,7 +44,12 @@ const configWinston = {
 
 @Module({
   imports: [
-    // MongooseModule.forRoot('mongodb://localhost/nest'),
+    MongooseModule.forRootAsync({
+      useFactory: () => ({
+        uri: process.env.MONGO_TEST_URI,
+        useNewUrlParser: true,
+      }),
+    }),
     WinstonModule.forRootAsync({
       useFactory: (winstonMongoDB: WinstonMongoDBService) => {
         const transports: any[] = [
@@ -55,8 +60,12 @@ const configWinston = {
           }),
           winstonMongoDB.createTransport({
             level: 'info',
-            db: 'mongodb://localhost/nest',
+            db: process.env.MONGO_TEST_URI,
             leaveConnectionOpen: false,
+            collection: 'logs',
+            options: {
+              useNewUrlParser: true,
+            },
           }),
         ];
 

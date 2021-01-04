@@ -8,7 +8,6 @@ import {
   LevelActivity,
   MetaActivity,
   OnModelChangedEvent,
-  SubjectActivity,
 } from '../types';
 
 export class ActivityBuilder {
@@ -91,7 +90,7 @@ export class ActivityBuilder {
     return this;
   }
 
-  public performedOn(model: SubjectActivity, type?: string): this {
+  public performedOn(model: any, type?: string): this {
     if (model) {
       this.meta.subject =
         typeof model.toJSON === 'function' ? model.toJSON() : model;
@@ -113,6 +112,14 @@ export class ActivityBuilder {
     if (req) {
       this.meta.request = new RequestBuilder().present(req);
     }
+    return this;
+  }
+
+  public requestRpc(req: any): this {
+    if (req) {
+      this.meta.request = req;
+    }
+
     return this;
   }
 

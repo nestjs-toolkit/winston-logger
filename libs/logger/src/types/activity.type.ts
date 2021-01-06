@@ -27,6 +27,7 @@ export type ConfigActivity = {
 };
 
 export type MetaActivity = {
+  namespace?: SubjectActivity;
   properties?: Record<string, any>;
   subject?: SubjectActivity;
   subjectCollection?: string;

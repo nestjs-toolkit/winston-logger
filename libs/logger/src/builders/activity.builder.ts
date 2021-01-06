@@ -100,10 +100,32 @@ export class ActivityBuilder {
     return this;
   }
 
+  public performedById(id: string, type: string): this {
+    this.meta.subject = {
+      _id: id,
+      collection: type,
+    };
+
+    this.meta.subjectCollection = type;
+
+    return this;
+  }
+
+  public namespaceById(id: string, type: string): this {
+    if (id && type) {
+      this.meta.namespace = {
+        _id: id,
+        collection: type,
+      };
+    }
+
+    return this;
+  }
+
   public causedBy(user?: CauserActivity, type?: string): this {
     if (user) {
       this.meta.causer = user;
-      this.meta.causerCollection = type;
+      this.meta.causerCollection = type || user?.collection;
     }
     return this;
   }

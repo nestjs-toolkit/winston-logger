@@ -16,7 +16,9 @@ import { WinstonLogger } from './winston.classes';
 export function createNestWinstonLogger(
   loggerOpts: WinstonModuleOptions,
 ): WinstonLogger {
-  return new WinstonLogger(createLogger(loggerOpts));
+  const logger = new WinstonLogger;
+  logger.setProvider(createLogger(loggerOpts));
+  return logger;
 }
 
 export function createWinstonProviders(
@@ -29,8 +31,10 @@ export function createWinstonProviders(
     },
     {
       provide: WINSTON_MODULE_NEST_PROVIDER,
-      useFactory: (logger: Logger) => {
-        return new WinstonLogger(logger);
+      useFactory: (provider: Logger) => {
+        const logger = new WinstonLogger;
+        logger.setProvider(provider);
+        return logger;
       },
       inject: [WINSTON_MODULE_PROVIDER],
     },

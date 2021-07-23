@@ -1,5 +1,5 @@
 import { Logger } from 'winston';
-import { Inject, Injectable, LoggerService } from '@nestjs/common';
+import { Inject, Injectable, Logger as NestLogger } from '@nestjs/common';
 import {
   GraphQLRequestContextDidEncounterErrors,
   GraphQLRequestContextWillSendResponse,
@@ -9,13 +9,15 @@ import { WINSTON_MODULE_PROVIDER } from './winston.constants';
 import { CauserActivity } from '../types';
 
 @Injectable()
-export class WinstonLogger implements LoggerService {
-  private context?: string;
+export class WinstonLogger extends NestLogger {
   private additional?: Record<string, any>;
 
-  constructor(
-    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
-  ) {}
+  @Inject(WINSTON_MODULE_PROVIDER)
+  private logger: Logger;
+
+  public setProvider(logger: Logger) {
+    this.logger = logger;
+  }
 
   public setContext(context: string): this {
     this.context = context;
@@ -55,14 +57,14 @@ export class WinstonLogger implements LoggerService {
     );
   }
 
-  public debug?(message: any, context?: string): Logger {
+  public debug(message: any, context?: string): Logger {
     return this.logger.debug(
       this.extractMessage(message),
       this.extractMeta(message, context),
     );
   }
 
-  public verbose?(message: any, context?: string): Logger {
+  public verbose(message: any, context?: string): Logger {
     return this.logger.verbose(
       this.extractMessage(message),
       this.extractMeta(message, context),
@@ -96,13 +98,13 @@ export class WinstonLogger implements LoggerService {
   ): Logger {
     const gql = requestContext.request
       ? {
-          operation: requestContext.operation
-            ? requestContext.operation.operation
-            : '5',
-          operationName: requestContext.request.operationName,
-          variables: requestContext.request.variables,
-          query: requestContext.request.query,
-        }
+        operation: requestContext.operation
+          ? requestContext.operation.operation
+          : '5',
+        operationName: requestContext.request.operationName,
+        variables: requestContext.request.variables,
+        query: requestContext.request.query,
+      }
       : null;
 
     return this.activity()
@@ -124,13 +126,13 @@ export class WinstonLogger implements LoggerService {
   ): Logger[] {
     const gql = requestContext.request
       ? {
-          operation: requestContext.operation
-            ? requestContext.operation.operation
-            : '5',
-          operationName: requestContext.request.operationName,
-          variables: requestContext.request.variables,
-          query: requestContext.request.query,
-        }
+        operation: requestContext.operation
+          ? requestContext.operation.operation
+          : '5',
+        operationName: requestContext.request.operationName,
+        variables: requestContext.request.variables,
+        query: requestContext.request.query,
+      }
       : null;
 
     return requestContext.errors.map(error =>
